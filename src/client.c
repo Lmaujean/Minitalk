@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmaujean <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/24 11:19:27 by lmaujean          #+#    #+#             */
+/*   Updated: 2021/09/24 11:19:31 by lmaujean         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/Minitalk.h"
 
-static int g_wait = 0;
+static int	g_wait = 0;
 
 int	valid_pid(char *pid_serveur)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (pid_serveur[i])
 	{
@@ -14,12 +26,12 @@ int	valid_pid(char *pid_serveur)
 		else
 			return (0);
 	}
-	return(1);
+	return (1);
 }
 
 int	send_bin(int pid_serveur, char str)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (size < 8)
@@ -55,7 +67,7 @@ int	send(char *line, int pid_serveur)
 		i++;
 	}
 	free(str);
-	return (0);	
+	return (0);
 }
 
 void	waiting(int i)
@@ -65,31 +77,31 @@ void	waiting(int i)
 	return ;
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    int pid;
+	int	pid;
 
-    if (argc == 3 && ft_atoi(argv[1]) != 0)
+	if (argc == 3 && ft_atoi(argv[1]) != 0)
 	{
 		signal(SIGUSR2, waiting);
 		if (kill(ft_atoi(argv[2]), 0))
-			ft_putstr_fd("Error", 1);	
+			ft_putstr_fd("Error", 1);
 	}
 	else if (argc != 3)
-    {
-        printf("Error not enough argument\n");
-        exit(EXIT_FAILURE);
-    }
+	{
+		ft_putstr_fd("Error argument\n", 1);
+		exit(EXIT_FAILURE);
+	}
 	else if (!valid_pid(argv[1]))
 	{
-		printf("Error invalid PID caractere\n");
+		ft_putstr_fd("Error invalid PID caractere\n", 1);
 		exit(EXIT_FAILURE);
 	}
 	pid = ft_atoi(argv[1]);
 	if (kill(pid, 0) == 0)
-		printf("Valid PID\n");
+		ft_putstr_fd("Valid PID\n", 1);
 	else
-		printf("Error invalid PID\n");
+		ft_putstr_fd("Error invalid PID\n", 1);
 	send(argv[2], pid);
-    return (0);
+	return (0);
 }

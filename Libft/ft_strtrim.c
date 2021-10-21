@@ -44,6 +44,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	i = 0;
 	while (end > start)
 		str[i++] = s1[start++];
-	str[i] ='\0';
+	str[i] = '\0';
 	return (str);
 }
